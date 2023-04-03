@@ -10,6 +10,8 @@ X1,Y1=0,0
 #coordinates of left mouse
 X2,Y2=0,0
 
+X3,Y3=0,0
+X4,Y4=0,0
 #Distnace Between Left and Right mouse
 d=10
 
@@ -43,13 +45,14 @@ while True:
         Y=Y1-Y2
 
         #Angle channge due to rotation o 
-        if(X1-X2!=0 and  Y1-Y2!=0 and X!=0):
+        if(X1!=X3 and X2!=X4 and Y1!=Y3 and Y2!=Y4 and X!=0):
             temp=Y/X
             angletemp = math.atan(temp)
         else:
             angletemp = -angle
+        X3,Y3,X4,Y4 = X1,Y1,Y2,X2
         #Calculation of global coordinates
-
+         
         Xu=(X1+X2)/2
         Yu=(Y1+Y2)/2
         
@@ -71,11 +74,11 @@ while True:
         Xmid=tempmatrix[0];
         Ymid=tempmatrix[1];
         
-        print("tempmatrix : "+str(tempmatrix[0])+"      "+str(tempmatrix[1]))
+        # print("tempmatrix : "+str(tempmatrix[0])+"      "+str(tempmatrix[1]))
         
         if count%50000==0:
             print("count : "+str((count/50000))+"  X1 : "+str(X1) +"  Y1 : "+str(Y1)+"  X2 : "+str(X2)+"  Y2 : "+str(Y2)+"  angle :"+str(angle))
-            print("tempmatrix : "+str(tempmatrix[0])+"      "+str(tempmatrix[1]))
+            # print("tempmatrix : "+str(tempmatrix[0])+"      "+str(tempmatrix[1]))
 
     except KeyboardInterrupt:
         device1.close()
