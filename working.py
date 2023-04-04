@@ -1,8 +1,8 @@
 from evdev import InputDevice,categorize,ecodes
 import math
 import numpy as np
-device1 = InputDevice('/dev/input/event16')
-device2 = InputDevice('/dev/input/event19')
+device1 = InputDevice('/dev/input/event6')
+device2 = InputDevice('/dev/input/event10')
 
 
 #coordinates of right mouse
@@ -19,6 +19,8 @@ d=10
 Xmid,Ymid=0,0
 count=0
 
+dpileft = 10201.5
+dpiright = 10345.2676 
 #angle value at which mouse previosly  moved
 angle=0
 while True:
@@ -30,15 +32,15 @@ while True:
         if event1 is not None:
             if event1.type==ecodes.EV_REL:
                 if event1.code==ecodes.REL_X:
-                    X1=event1.value
+                    X1=(event1.value)/dpiright
                 elif event1.code==ecodes.REL_Y:
-                    Y1=event1.value
+                    Y1=(event1.value)/dpiright
         if event2 is not None:
             if event2.type==ecodes.EV_REL:
                 if event2.code==ecodes.REL_X:
-                    X2=event2.value
+                    X2=(event2.value)/dpileft
                 elif event2.code == ecodes.REL_Y:
-                    Y2=event2.value
+                    Y2=(event2.value)/dpileft
         
         #Net change in x and y coordinates
         X=d+X1-X2
@@ -74,8 +76,8 @@ while True:
         # print("tempmatrix : "+str(tempmatrix[0])+"      "+str(tempmatrix[1]))
         
         if count%50000==0:
-            print("count : "+str((count/50000))+"  X1 : "+str(X1) +"  Y1 : "+str(Y1)+"  X2 : "+str(X2)+"  Y2 : "+str(Y2)+"  angle :"+str(math.degrees(angle)))
-            # print("tempmatrix : "+str(tempmatrix[0])+"      "+str(tempmatrix[1]))
+            print("count : "+str((count/50000))+"  X1 : "+str(X1) +"  Y1 : "+str(Y1)+"  X2 : "+str(X2)+"  Y2 : "+str(Y2)+"  angle :"+str(math.degrees(angle)%360))
+            print("tempmatrix : "+str(tempmatrix[0])+"      "+str(tempmatrix[1]))
 
     except KeyboardInterrupt:
         device1.close()
