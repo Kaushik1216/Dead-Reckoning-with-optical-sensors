@@ -1,7 +1,7 @@
 from evdev import InputDevice,categorize,ecodes
 
-device1 = InputDevice('/dev/input/event16')
-device2 = InputDevice('/dev/input/event19')
+device1 = InputDevice('/dev/input/event6')
+device2 = InputDevice('/dev/input/event7')
 
 X1,Y1=0,0
 X2,Y2=0,0

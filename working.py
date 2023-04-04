@@ -30,33 +30,30 @@ while True:
         if event1 is not None:
             if event1.type==ecodes.EV_REL:
                 if event1.code==ecodes.REL_X:
-                    X1+=event1.value
+                    X1=event1.value
                 elif event1.code==ecodes.REL_Y:
-                    Y1-=event1.value
+                    Y1=event1.value
         if event2 is not None:
             if event2.type==ecodes.EV_REL:
                 if event2.code==ecodes.REL_X:
-                    X2+=event2.value
+                    X2=event2.value
                 elif event2.code == ecodes.REL_Y:
-                    Y2-=event2.value
+                    Y2=event2.value
         
         #Net change in x and y coordinates
         X=d+X1-X2
         Y=Y1-Y2
 
         #Angle channge due to rotation o 
-        if(X1!=X3 and X2!=X4 and Y1!=Y3 and Y2!=Y4 and X!=0):
-            temp=Y/X
-            angletemp = math.atan(temp)
-        else:
-            angletemp = -angle
-        X3,Y3,X4,Y4 = X1,Y1,Y2,X2
+        
+        angletemp = math.atan2(Y,X)
+      
         #Calculation of global coordinates
          
         Xu=(X1+X2)/2
         Yu=(Y1+Y2)/2
         
-        angle = math.radians(math.degrees(angle)+math.degrees(angletemp))
+        angle = angle+angletemp
 
         #rotational matrix
         rmatrix = np.array([[math.cos(angle), math.sin(angle)], [-math.sin(angle), math.cos(angle)]])
@@ -77,7 +74,7 @@ while True:
         # print("tempmatrix : "+str(tempmatrix[0])+"      "+str(tempmatrix[1]))
         
         if count%50000==0:
-            print("count : "+str((count/50000))+"  X1 : "+str(X1) +"  Y1 : "+str(Y1)+"  X2 : "+str(X2)+"  Y2 : "+str(Y2)+"  angle :"+str(angle))
+            print("count : "+str((count/50000))+"  X1 : "+str(X1) +"  Y1 : "+str(Y1)+"  X2 : "+str(X2)+"  Y2 : "+str(Y2)+"  angle :"+str(math.degrees(angle)))
             # print("tempmatrix : "+str(tempmatrix[0])+"      "+str(tempmatrix[1]))
 
     except KeyboardInterrupt:
