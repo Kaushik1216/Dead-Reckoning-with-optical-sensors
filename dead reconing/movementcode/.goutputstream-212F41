@@ -1,0 +1,134 @@
+#This programe used to demonstare how to use Loch Antiphase with Hat-MDD10
+#AN pin will act as sterring to control direction
+#DIG pin will act to ON/OFF motor output.
+import socket
+import time;
+HOST = '192.168.251.200'  # use the default IP address of the Raspberry Pi
+PORT = 12345  # choose a free port number
+
+# Create a socket object
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    # Bind the socket to a local address and port
+    s.bind((HOST, PORT))
+    # Listen for incoming connections
+    s.listen()
+    print('Waiting for connection...')
+    # Accept a connection
+    conn, addr = s.accept()
+    with conn:
+        print('Connected by', addr)
+        while True:
+            # Receive data from the client
+            data = conn.recv(1024)
+            if not data:
+                break
+            # Print the received data
+            print(Received, data.decode('utf-8'))
+
+import RPi.GPIO as GPIO			# using Rpi.GPIO module
+from time import sleep			# import function sleep for delay
+GPIO.setmode(GPIO.BCM)			# GPIO numbering
+GPIO.setwarnings(False)			# enable warning from GPIO
+AN2 = 25			# set pwm2 pin on MD10-Hat
+AN1 = 24			# set pwm1 pin on MD10-hat
+DIG2 = 23				# set dir2 pin on MD10-Hat
+DIG1 = 18				# set dir1 pin on MD10-Hat
+GPIO.setup(AN2, GPIO.OUT)		# set pin as output
+GPIO.setup(AN1, GPIO.OUT)		# set pin as output
+GPIO.setup(DIG2, GPIO.OUT)		# set pin as output
+GPIO.setup(DIG1, GPIO.OUT)		# set pin as output
+sleep(1)				# delay for 1 seconds
+p1 = GPIO.PWM(AN1, 100)		# set pwm for M1
+p2 = GPIO.PWM(AN2, 100)		# set pwm for M2
+
+def forward(t):
+	print ("Forward")			# display "Forward" when programe run
+	GPIO.output(DIG1, GPIO.LOW)		# set AN1 as HIGH, M1B will turn ON
+	GPIO.output(DIG2, GPIO.LOW)		# set AN2 as HIGH, M2B will turn ON
+	p1.start(100)				# set Direction for M1
+	p2.start(100)				# set Direction for M2  
+	sleep(t)	
+	
+try:					
+  while True:
+   if(Received==a):
+      s = time.time()
+      forward(s)
+   #print ("Backward")
+   #GPIO.output(DIG1, GPIO.HIGH)       
+   #GPIO.output(DIG2, GPIO.HIGH)       
+   #p1.start(30)                     
+   #p2.start(30)                       
+   #sleep(3) 
+   GPIO.cleanup()
+   #GPIO.cleanup() 	#delay for 2 second
+   
+    print("Rotate left")
+   GPIO.output(DIG1, GPIO.LOW)         
+   GPIO.output(DIG2, GPIO.HIGH)         
+   p1.start(100)     #right wheel hai                  
+   p2.start(100)   #left wheel hai                    
+   sleep(3.44)  
+   GPIO.cleanup()
+      
+   print ("Left")
+   GPIO.output(DIG1, GPIO.LOW)         
+   GPIO.output(DIG2, GPIO.HIGH)         
+   p1.start(100)     #right wheel hai                  
+   p2.start(0)   #left wheel hai                    
+   sleep(8.33)
+   GPIO.cleanup()
+   
+  
+
+   
+   
+   
+   
+   #print ("Right")
+   #GPIO.output(DIG1, GPIO.HIGH)       
+   #GPIO.output(DIG2, GPIO.LOW)       
+   #p1.start(0)                       
+   #p2.start(100)                     
+   #sleep(6.5)
+   #GPIO.cleanup()
+   print("rotate right")
+   GPIO.output(DIG1, GPIO.HIGH)       
+   GPIO.output(DIG2, GPIO.LOW)       
+   p1.start(100)                       
+   p2.start(100)                     
+   sleep(3)
+   GPIO.cleanup()
+   
+
+                            
+
+    
+   
+  
+                           
+   
+                            
+	
+   print ("STOP")
+   GPIO.output(DIG1, GPIO.LOW)           # set AN1 as LOW, M1B will STOP
+   GPIO.output(DIG2, GPIO.LOW)           # set AN2 as HIGH, M2B will STOP
+   p1.start(0)                          # Direction can ignore
+   p2.start(0)                          # Direction can ignore
+   sleep(1)
+   
+   GPIO.cleanup()
+   
+   
+   
+                            #delay for 3 second
+	
+
+except:					# exit programe when keyboard interupt
+   p1.start(0)				# set speed to 0
+   p2.start(0)	
+   
+   GPIO.cleanup() 			# set speed to 0
+					# Control+X to save and exit
+   
+						
